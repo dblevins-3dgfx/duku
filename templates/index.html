@@ -5,7 +5,6 @@
 <body>
     <div class="App">
         <header class="App-header">
-            <img src="{{ url_for('static', filename='Octocat.png') }}" class="App-logo" alt="logo" />
             <p>
                 GitHub Codespaces <span class="heart">♥️</span> Flask
             </p>
@@ -13,6 +12,16 @@
                 Edit <code>templates/index.html</code> and refresh to see your changes!
             </p>
         </header>
+
+        <table class="App-board">
+            {% for row in board %}
+            <tr>
+                {% for square in row %}
+                <td>{{ square.value or '' }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 

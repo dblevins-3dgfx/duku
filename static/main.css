@@ -23,13 +23,36 @@ code {
 
 .App-header {
     background-color: #282c34;
-    min-height: 100vh;
+    min-height: 10vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+}
+
+.App-board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(30px + 2vmin);
+    color: green;
+}
+
+table, th, td {
+    border: 1px solid black; 
+    border-collapse: collapse;
+}
+
+tr {
+    height:40px;
+    text-align: center;
+}
+
+td {
+    width:40px
 }
 
 .App-link {

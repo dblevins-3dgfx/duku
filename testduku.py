@@ -34,6 +34,47 @@ class TestDuku(unittest.TestCase):
         self.assertEqual(game.board[1][0].value, 4)
         self.assertEqual(game.board[1][8].value, 3)
 
+    def test_row_values(self):
+        game = Duku()
+        self.assertListEqual(game.row_values(0), [])
+        game.sequentialize_row(game.board[0], 0)
+        self.assertListEqual(game.row_values(0), [1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+    def test_col_values(self):
+        game = Duku()
+        self.assertListEqual(game.col_values(0), [])
+        game.fillboard()
+        self.assertListEqual(game.col_values(0), [1, 4, 7, 2, 5, 8, 3, 6, 9])
+
+    def test_block_values(self):
+        game = Duku()
+        self.assertListEqual(game.block_values((0, 0)), [])
+        game.fillboard()
+        self.assertListEqual(game.block_values((0,0)), [1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+
+    def test_legal_empty_state(self):
+        game = Duku()
+        self.assertTrue(game.check_unique(game.row_values(0)))
+        self.assertTrue(game.check_unique(game.col_values(0)))
+        self.assertTrue(game.check_unique(game.block_values((0,0))))
+        self.assertTrue(game.check_legal())
+
+    def test_legal_filled_state(self):
+        game = Duku()
+        game.fillboard()
+        self.assertTrue(game.check_unique(game.row_values(0)))
+        self.assertTrue(game.check_unique(game.col_values(0)))
+        self.assertTrue(game.check_unique(game.block_values((0,0))))
+
+    def test_illegal_row_state(self):
+        game = Duku()
+        game.fillboard()
+        game.board[0][1].value = game.board[0][0].value
+        game.board[1][0].value = game.board[0][0].value
+        self.assertFalse(game.check_unique(game.row_values(0)))
+        self.assertFalse(game.check_unique(game.col_values(0)))
+        self.assertFalse(game.check_unique(game.block_values((0,0))))
 
 if __name__ == '__main__':
     unittest.main()

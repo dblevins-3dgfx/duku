@@ -6,5 +6,5 @@ app = Flask(__name__)
 @app.route("/")
 def hello_world():
     thegame = Duku()
-    thegame.fillboard();
-    return render_template("index.html", title="Hello", board=thegame.board)
+    thegame.fillboard()
+    return render_template("index.html", title="Duku", board=thegame.board)

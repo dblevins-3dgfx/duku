@@ -26,6 +26,14 @@ class TestDuku(unittest.TestCase):
         self.assertEqual(game.board[8][8].value, None)
         self.assertEqual(game.board[8][8].coord, (8,8))
 
+    def test_duku_fillboard(self):
+        game = Duku()
+        game.fillboard()
+        self.assertEqual(game.board[0][0].value, 1)
+        self.assertEqual(game.board[0][8].value, 9)
+        self.assertEqual(game.board[1][0].value, 4)
+        self.assertEqual(game.board[1][8].value, 3)
+
 
 if __name__ == '__main__':
     unittest.main()

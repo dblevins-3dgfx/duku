@@ -13,7 +13,7 @@ class Duku:
         for square in row:
             square.value = ((square.coord[1]+rot)%9)+1
 
-    def fillboard(self):
+    def fill_fixed(self):
         for i, row in enumerate(self.board):
             rot = 3*i + int(i/3)
             self.sequentialize_row(row, rot)
@@ -55,6 +55,12 @@ class Duku:
             for j in range(3):
                 ok &= self.check_unique(self.block_values((i,j)))
         return ok
-        
+    
+    def is_complete(self):
+        ok = True
+        for i in range(9):
+            for j in range(9):
+              ok &= self.board[i][j].value is not None
+        return ok
 
 

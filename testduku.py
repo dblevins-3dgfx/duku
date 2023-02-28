@@ -10,71 +10,70 @@ class TestSquare(unittest.TestCase):
         self.assertEqual(sq.coord, (0, 0))
 
 class TestDuku(unittest.TestCase):
+    def setUp(self):
+        self.game = Duku()
 
     def test_duku_init(self):
-        game = Duku()
-        self.assertTrue(isinstance(game.board, list))
-        self.assertEqual(len(game.board), 9)
-        self.assertTrue(isinstance(game.board[0], list))
-        self.assertEqual(len(game.board[0]), 9)
-        self.assertEqual(game.board[0][0].value, None)
-        self.assertEqual(game.board[0][0].coord, (0,0))
-        self.assertEqual(game.board[0][8].value, None)
-        self.assertEqual(game.board[0][8].coord, (0,8))
-        self.assertEqual(game.board[8][0].value, None)
-        self.assertEqual(game.board[8][0].coord, (8,0))
-        self.assertEqual(game.board[8][8].value, None)
-        self.assertEqual(game.board[8][8].coord, (8,8))
+        self.assertTrue(isinstance(self.game.board, list))
+        self.assertEqual(len(self.game.board), 9)
+        self.assertTrue(isinstance(self.game.board[0], list))
+        self.assertEqual(len(self.game.board[0]), 9)
+        self.assertEqual(self.game.board[0][0].value, None)
+        self.assertEqual(self.game.board[0][0].coord, (0,0))
+        self.assertEqual(self.game.board[0][8].value, None)
+        self.assertEqual(self.game.board[0][8].coord, (0,8))
+        self.assertEqual(self.game.board[8][0].value, None)
+        self.assertEqual(self.game.board[8][0].coord, (8,0))
+        self.assertEqual(self.game.board[8][8].value, None)
+        self.assertEqual(self.game.board[8][8].coord, (8,8))
 
     def test_duku_fillboard(self):
-        game = Duku()
-        game.fillboard()
-        self.assertEqual(game.board[0][0].value, 1)
-        self.assertEqual(game.board[0][8].value, 9)
-        self.assertEqual(game.board[1][0].value, 4)
-        self.assertEqual(game.board[1][8].value, 3)
+        self.game.fill_fixed()
+        self.assertEqual(self.game.board[0][0].value, 1)
+        self.assertEqual(self.game.board[0][8].value, 9)
+        self.assertEqual(self.game.board[1][0].value, 4)
+        self.assertEqual(self.game.board[1][8].value, 3)
 
     def test_row_values(self):
-        game = Duku()
-        self.assertListEqual(game.row_values(0), [])
-        game.sequentialize_row(game.board[0], 0)
-        self.assertListEqual(game.row_values(0), [1, 2, 3, 4, 5, 6, 7, 8, 9])
+        self.assertListEqual(self.game.row_values(0), [])
+        self.game.sequentialize_row(self.game.board[0], 0)
+        self.assertListEqual(self.game.row_values(0), [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
     def test_col_values(self):
-        game = Duku()
-        self.assertListEqual(game.col_values(0), [])
-        game.fillboard()
-        self.assertListEqual(game.col_values(0), [1, 4, 7, 2, 5, 8, 3, 6, 9])
+        self.assertListEqual(self.game.col_values(0), [])
+        self.game.fill_fixed()
+        self.assertListEqual(self.game.col_values(0), [1, 4, 7, 2, 5, 8, 3, 6, 9])
 
     def test_block_values(self):
-        game = Duku()
-        self.assertListEqual(game.block_values((0, 0)), [])
-        game.fillboard()
-        self.assertListEqual(game.block_values((0,0)), [1, 2, 3, 4, 5, 6, 7, 8, 9])
+        self.assertListEqual(self.game.block_values((0, 0)), [])
+        self.game.fill_fixed()
+        self.assertListEqual(self.game.block_values((0,0)), [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 
     def test_legal_empty_state(self):
-        game = Duku()
-        self.assertTrue(game.check_unique(game.row_values(0)))
-        self.assertTrue(game.check_unique(game.col_values(0)))
-        self.assertTrue(game.check_unique(game.block_values((0,0))))
-        self.assertTrue(game.check_legal())
+        self.assertTrue(self.game.check_unique(self.game.row_values(0)))
+        self.assertTrue(self.game.check_unique(self.game.col_values(0)))
+        self.assertTrue(self.game.check_unique(self.game.block_values((0,0))))
+        self.assertTrue(self.game.check_legal())
 
     def test_legal_filled_state(self):
-        game = Duku()
-        game.fillboard()
-        self.assertTrue(game.check_unique(game.row_values(0)))
-        self.assertTrue(game.check_unique(game.col_values(0)))
-        self.assertTrue(game.check_unique(game.block_values((0,0))))
+        self.game.fill_fixed()
+        self.assertTrue(self.game.check_unique(self.game.row_values(0)))
+        self.assertTrue(self.game.check_unique(self.game.col_values(0)))
+        self.assertTrue(self.game.check_unique(self.game.block_values((0,0))))
 
     def test_illegal_row_state(self):
-        game = Duku()
-        game.fillboard()
-        game.board[0][1].value = game.board[0][0].value
-        game.board[1][0].value = game.board[0][0].value
-        self.assertFalse(game.check_unique(game.row_values(0)))
-        self.assertFalse(game.check_unique(game.col_values(0)))
-        self.assertFalse(game.check_unique(game.block_values((0,0))))
+        self.game.fill_fixed()
+        self.game.board[0][1].value = self.game.board[0][0].value
+        self.game.board[1][0].value = self.game.board[0][0].value
+        self.assertFalse(self.game.check_unique(self.game.row_values(0)))
+        self.assertFalse(self.game.check_unique(self.game.col_values(0)))
+        self.assertFalse(self.game.check_unique(self.game.block_values((0,0))))
+
+    def test_is_complete(self):
+        self.assertFalse(self.game.is_complete())
+        self.game.fill_fixed();
+        self.assertTrue(self.game.is_complete())
 
 if __name__ == '__main__':
     unittest.main()
